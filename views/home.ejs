@@ -7,8 +7,10 @@
 </head>
 
 <body>
-    <%- include('./partials/script') %>
-        <%- include('./partials/nav') %>
+
+    <%- include('./partials/nav') %>
+        <%= JSON.stringify(user) %>
+            <%- include('./partials/script') %>
 </body>
 
 </html>

@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Blogs</a>
@@ -10,20 +11,37 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Add Blog</a>
-                </li>
+                <% if (locals.user) { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Add Blog</a>
+                    </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Suyog Sable
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">logout</a></li>
-                    </ul>
-                </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Suyog Sable
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">logout</a></li>
+                        </ul>
+                    </li>
+                    <% } else {%>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/user/signup">Create Account</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/user/signin">Signin</a>
+                        </li>
+                        <% } %>
             </ul>
         </div>
     </div>
 </nav>
+
+<% if (locals.error) { %>
+    <div class="container mt-4">
+        <div class="alert alert-danger" role="alert">
+            <%= locals.error %>
+        </div>
+    </div>
+    <% } %>
