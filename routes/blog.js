@@ -100,6 +100,24 @@ router.post("/", upload.single("coverImage"), async (req, res) => {
     return res.redirect(`/blog/${blog._id}`);
 });
 
+router.post("/delete/:blogId", async (req, res) => {
+    const { blogId } = req.params;
+
+    // Find the blog first
+    const blog = await Blog.findById(blogId);
+
+    // Check if the logged-in user is the creator
+    if (!blog || String(blog.createdBy) !== String(req.user._id)) {
+        return res.status(403).send("Unauthorized or blog not found");
+    }
+
+    // Delete blog, its comments, and likes
+    await Blog.deleteOne({ _id: blogId });
+    await Comment.deleteMany({ blogId });
+    await Like.deleteMany({ blogId });
+
+    return res.redirect("/");
+});
 
 
 module.exports = router;

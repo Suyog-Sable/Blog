@@ -6,16 +6,20 @@
         <title>
             <%= blog.title %> | Blog
         </title>
-
         <style>
             body {
                 background: linear-gradient(to right, #1f1f1f, #2c2c2c);
                 color: #f1f1f1;
+                font-family: 'Segoe UI', sans-serif;
             }
 
             h1,
             h4 {
                 color: #ffffff;
+            }
+
+            .container {
+                max-width: 860px;
             }
 
             .blog-header {
@@ -51,6 +55,8 @@
                 padding: 24px;
                 border-radius: 10px;
                 color: #ddd;
+                font-size: 1.05rem;
+                line-height: 1.6;
             }
 
             .input-group input,
@@ -81,6 +87,28 @@
 
             form .btn {
                 min-width: 100px;
+            }
+
+            .action-buttons {
+                display: flex;
+                gap: 10px;
+            }
+
+            .action-buttons form {
+                display: inline-block;
+            }
+
+            .delete-btn {
+                background-color: #ff4c4c;
+                border: none;
+                padding: 6px 12px;
+                border-radius: 6px;
+                color: white;
+                font-size: 0.9rem;
+            }
+
+            .delete-btn:hover {
+                background-color: #e53935;
             }
         </style>
 </head>
@@ -116,7 +144,7 @@
                 <pre><%= blog.body %></pre>
             </div>
 
-            <!-- Like + Comment Input -->
+            <!-- Like + Comment + Delete -->
             <div class="mb-5 d-flex flex-wrap align-items-center gap-3">
                 <% if (locals.user) { %>
                     <!-- Like -->
@@ -134,9 +162,17 @@
                             <button class="btn btn-primary" type="submit">Comment</button>
                         </div>
                     </form>
-                    <% } else { %>
-                        <p><i>Login to like and comment on this blog.</i></p>
+
+                    <!-- Delete Button (only if creator) -->
+                    <% if (user._id.toString()===blog.createdBy._id.toString()) { %>
+                        <form action="/blog/delete/<%= blog._id %>" method="POST"
+                            onsubmit="return confirm('Delete this blog?')">
+                            <button type="submit" class="delete-btn">🗑 Delete</button>
+                        </form>
                         <% } %>
+                            <% } else { %>
+                                <p><i>Login to like and comment on this blog.</i></p>
+                                <% } %>
             </div>
 
             <!-- Comments -->
