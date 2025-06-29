@@ -1,35 +1,42 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">Blogs</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3 shadow-sm sticky-top"
+    style="backdrop-filter: blur(8px); background-color: rgba(33, 37, 41, 0.85);">
+    <div class="container">
+        <a class="navbar-brand fw-bold fs-4" href="/">📝 TechTalks</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav align-items-center gap-2">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link" href="/">Home</a>
                 </li>
+
                 <% if (locals.user) { %>
                     <li class="nav-item">
-                        <a class="nav-link" href="/blog/add-new">Add Blog</a>
+                        <a class="nav-link" href="/blog/add-new">+ Add Blog</a>
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Suyog Sable
+                        <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="<%= user.profileImageURL || '/images/profileAvatar.jpg' %>" alt="Profile"
+                                class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover;" />
+                            <span>
+                                <%= user.fullName %>
+                            </span>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
                         </ul>
                     </li>
-                    <% } else {%>
+                    <% } else { %>
                         <li class="nav-item">
                             <a class="nav-link" href="/user/signup">Create Account</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/signin">Signin</a>
+                            <a class="nav-link" href="/user/signin">Sign In</a>
                         </li>
                         <% } %>
             </ul>
@@ -38,7 +45,7 @@
 </nav>
 
 <% if (locals.error) { %>
-    <div class="container mt-4">
+    <div class="container mt-3">
         <div class="alert alert-danger" role="alert">
             <%= locals.error %>
         </div>

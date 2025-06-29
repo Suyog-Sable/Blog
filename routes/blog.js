@@ -20,7 +20,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 router.get("/", async (req, res) => {
-    const blogs = await Blog.find().populate('createdBy').lean();
+    const blogs = await Blog.find()
+        //Sort Logic
+        .sort({ createdAt: -1 })
+        .populate('createdBy')
+        .lean();
 
     for (let blog of blogs) {
         blog.likeCount = await Like.countDocuments({ blogId: blog._id });
@@ -31,7 +35,6 @@ router.get("/", async (req, res) => {
         blogs,
     });
 });
-
 
 
 router.get("/add-new", (req, res) => {
@@ -47,8 +50,11 @@ router.get('/:id', async (req, res) => {
     const comments = await Comment.find({ blogId }).populate("createdBy");
 
     const likeCount = await Like.countDocuments({ blogId });
-    const isLiked = await Like.findOne({ blogId, createdBy: req.user._id });
-
+    let isLiked = false;
+    if (req.user) {
+        const liked = await Like.findOne({ blogId, createdBy: req.user._id });
+        isLiked = !!liked;
+    }
     return res.render("blog", {
         user: req.user,
         blog,
