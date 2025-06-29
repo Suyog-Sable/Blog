@@ -3,50 +3,91 @@
 
 <head>
     <%- include('./partials/head') %>
-        <title>Blog</title>
+        <title>
+            <%= blog.title %> | Blog
+        </title>
 </head>
 
 <body>
     <%- include('./partials/nav') %>
 
-        <div class="container mt-4">
-            <h1>
-                <%= blog.title %>
-            </h1>
-            <img src="<%= blog.coverImageURL %>" width="400px" />
-            <pre class="mt-3"><%= blog.body %></pre>
-        </div>
+        <div class="container mt-5">
 
-        <div class="container mt-4">
-            <img src="<%= blog.createdBy.profileImageURL %>" width="50px">
-            <%= blog.createdBy.fullName %>
-        </div>
-
-        <div class="container mt-3">
-            <h1>Comments (<%= comments.length %>)
-            </h1>
-            <% if (locals.user) { %>
-                <form action="/blog/comment/<%= blog._id %>" method="post">
-                    <div class="mb-3">
-                        <input type="text" class="form-control" name="content" placeholder="Enter your comment">
-                        <button class="btn btn-sm btn-primary" type="submit">Add</button>
+            <!-- Blog Header -->
+            <div class="mb-3 border-bottom pb-2">
+                <h1 class="fw-bold mb-1">
+                    <%= blog.title %>
+                </h1>
+                <div class="d-flex align-items-center gap-3">
+                    <img src="<%= blog.createdBy.profileImageURL %>" class="rounded-circle" width="45px" height="45px">
+                    <div>
+                        <strong>
+                            <%= blog.createdBy.fullName %>
+                        </strong>
+                        <p class="text-muted small mb-0">Author</p>
                     </div>
-                </form>
+                </div>
+            </div>
 
-                <% } %>
-                    <div class="mt-3">
-                        <% comments.forEach(comment=> { %>
+            <!-- Blog Cover Image -->
+            <div class="text-center mb-4">
+                <img src="<%= blog.coverImageURL %>" class="img-fluid rounded shadow-sm" style="max-height: 400px;" />
+            </div>
+
+            <!-- Blog Content -->
+            <div class="mb-5">
+                <pre class="bg-light p-4 rounded"
+                    style="white-space: pre-wrap; font-family: inherit;"><%= blog.body %></pre>
+            </div>
+
+            <!-- Post Actions: Like + Comment Input -->
+            <div class="mb-5 d-flex flex-wrap align-items-center gap-3">
+                <% if (locals.user) { %>
+                    <!-- Like Form -->
+                    <form action="/blog/like/<%= blog._id %>" method="POST">
+                        <button type="submit" class="btn btn-sm <%= isLiked ? 'btn-danger' : 'btn-outline-danger' %>">
+                            <%= isLiked ? '❤️ Liked' : '🤍 Like' %> (<%= likeCount %>)
+                        </button>
+                    </form>
+
+                    <!-- Comment Form -->
+                    <form action="/blog/comment/<%= blog._id %>" method="post" class="flex-grow-1">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="content" placeholder="Add a comment..."
+                                required>
+                            <button class="btn btn-primary" type="submit">Comment</button>
+                        </div>
+                    </form>
+                    <% } else { %>
+                        <p><i>Login to like and comment on this blog.</i></p>
+                        <% } %>
+            </div>
+
+            <!-- Comments Section -->
+            <div>
+                <h4 class="mb-4">Comments (<%= comments.length %>)</h4>
+
+                <% comments.forEach(comment=> { %>
+                    <div class="card mb-3">
+                        <div class="card-body d-flex gap-3">
+                            <img src="<%= comment.createdBy.profileImageURL %>" class="rounded-circle" width="40px"
+                                height="40px">
                             <div>
-                                <img src="<%= comment.createdBy.profileImageURL %>" width="50px">
-                                <%= comment.createdBy.fullName %>
-                                    <pre><%= comment.content %></pre>
+                                <strong>
+                                    <%= comment.createdBy.fullName %>
+                                </strong>
+                                <p class="mb-0 mt-1">
+                                    <%= comment.content %>
+                                </p>
                             </div>
-                            <% }) %>
+                        </div>
                     </div>
+                    <% }) %>
+            </div>
+
         </div>
 
         <%- include('./partials/script') %>
-
 </body>
 
 </html>

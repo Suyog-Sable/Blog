@@ -3,8 +3,9 @@ const router = Router();
 const multer = require("multer");
 const path = require("path");
 
-const Blog = require('../models/blog')
-const Comment = require('../models/comment')
+const Blog = require('../models/blog');
+const Comment = require('../models/comment');
+const Like = require('../models/likes');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -18,6 +19,20 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
+router.get("/", async (req, res) => {
+    const blogs = await Blog.find().populate('createdBy').lean();
+
+    for (let blog of blogs) {
+        blog.likeCount = await Like.countDocuments({ blogId: blog._id });
+    }
+
+    res.render("home", {
+        user: req.user,
+        blogs,
+    });
+});
+
+
 
 router.get("/add-new", (req, res) => {
     return res.render("addBlog", {
@@ -25,24 +40,47 @@ router.get("/add-new", (req, res) => {
     });
 });
 
-router.get('/:id',async(req,res)=>{
-    const blog = await Blog.findById(req.params.id).populate('createdBy');
-    const comments = await Comment.find({blogId:req.params.id}).populate("createdBy");
-    
-    return res.render("blog",{
+router.get('/:id', async (req, res) => {
+    const blogId = req.params.id;
+
+    const blog = await Blog.findById(blogId).populate('createdBy');
+    const comments = await Comment.find({ blogId }).populate("createdBy");
+
+    const likeCount = await Like.countDocuments({ blogId });
+    const isLiked = await Like.findOne({ blogId, createdBy: req.user._id });
+
+    return res.render("blog", {
         user: req.user,
         blog,
         comments,
+        likeCount,
+        isLiked: !!isLiked, // true or false
     });
-}); 
+});
 
-router.post("/comment/:blogId", async(req,res)=>{
+router.post("/comment/:blogId", async (req, res) => {
     await Comment.create({
         content: req.body.content,
         blogId: req.params.blogId,
-        createdBy:req.user._id,
+        createdBy: req.user._id,
     });
-    return res.redirect(`/blog/${req.params.blogId}`);  
+    return res.redirect(`/blog/${req.params.blogId}`);
+})
+
+router.post("/like/:blogId", async (req, res) => {
+    const { blogId } = req.params;
+    const userId = req.user._id;
+
+    const existingLike = await Like.findOne({ blogId, createdBy: userId });
+    if (existingLike) {
+        await Like.deleteOne({ _id: existingLike._id });
+    } else {
+        await Like.create({
+            blogId,
+            createdBy: userId,
+        })
+    }
+    return res.redirect(`/blog/${blogId}`);
 })
 
 router.post("/", upload.single("coverImage"), async (req, res) => {
