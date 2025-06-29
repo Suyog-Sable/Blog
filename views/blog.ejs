@@ -6,6 +6,83 @@
         <title>
             <%= blog.title %> | Blog
         </title>
+
+        <style>
+            body {
+                background: linear-gradient(to right, #1f1f1f, #2c2c2c);
+                color: #f1f1f1;
+            }
+
+            h1,
+            h4 {
+                color: #ffffff;
+            }
+
+            .blog-header {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                padding-bottom: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .author-details {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .author-details img {
+                border-radius: 50%;
+                width: 48px;
+                height: 48px;
+                object-fit: cover;
+            }
+
+            .blog-cover img {
+                max-height: 400px;
+                object-fit: cover;
+                border-radius: 12px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            }
+
+            pre {
+                white-space: pre-wrap;
+                font-family: inherit;
+                background-color: rgba(255, 255, 255, 0.03);
+                padding: 24px;
+                border-radius: 10px;
+                color: #ddd;
+            }
+
+            .input-group input,
+            .btn,
+            textarea {
+                border-radius: 8px;
+            }
+
+            .comment-card {
+                background-color: rgba(255, 255, 255, 0.05);
+                border: none;
+                color: #eee;
+                border-radius: 12px;
+                backdrop-filter: blur(3px);
+                -webkit-backdrop-filter: blur(3px);
+            }
+
+            .comment-card img {
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                object-fit: cover;
+            }
+
+            .text-muted {
+                color: #aaa !important;
+            }
+
+            form .btn {
+                min-width: 100px;
+            }
+        </style>
 </head>
 
 <body>
@@ -14,43 +91,42 @@
         <div class="container mt-5">
 
             <!-- Blog Header -->
-            <div class="mb-3 border-bottom pb-2">
-                <h1 class="fw-bold mb-1">
+            <div class="blog-header">
+                <h1 class="fw-bold mb-2">
                     <%= blog.title %>
                 </h1>
-                <div class="d-flex align-items-center gap-3">
-                    <img src="<%= blog.createdBy.profileImageURL %>" class="rounded-circle" width="45px" height="45px">
+                <div class="author-details">
+                    <img src="<%= blog.createdBy.profileImageURL %>" alt="Author">
                     <div>
                         <strong>
                             <%= blog.createdBy.fullName %>
                         </strong>
-                        <p class="text-muted small mb-0">Author</p>
+                        <p class="text-muted mb-0">Author</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Blog Cover Image -->
-            <div class="text-center mb-4">
-                <img src="<%= blog.coverImageURL %>" class="img-fluid rounded shadow-sm" style="max-height: 400px;" />
+            <!-- Blog Cover -->
+            <div class="text-center blog-cover mb-5">
+                <img src="<%= blog.coverImageURL %>" class="img-fluid rounded shadow" />
             </div>
 
             <!-- Blog Content -->
             <div class="mb-5">
-                <pre class="bg-light p-4 rounded"
-                    style="white-space: pre-wrap; font-family: inherit;"><%= blog.body %></pre>
+                <pre><%= blog.body %></pre>
             </div>
 
-            <!-- Post Actions: Like + Comment Input -->
+            <!-- Like + Comment Input -->
             <div class="mb-5 d-flex flex-wrap align-items-center gap-3">
                 <% if (locals.user) { %>
-                    <!-- Like Form -->
+                    <!-- Like -->
                     <form action="/blog/like/<%= blog._id %>" method="POST">
                         <button type="submit" class="btn btn-sm <%= isLiked ? 'btn-danger' : 'btn-outline-danger' %>">
                             <%= isLiked ? '❤️ Liked' : '🤍 Like' %> (<%= likeCount %>)
                         </button>
                     </form>
 
-                    <!-- Comment Form -->
+                    <!-- Comment Input -->
                     <form action="/blog/comment/<%= blog._id %>" method="post" class="flex-grow-1">
                         <div class="input-group">
                             <input type="text" class="form-control" name="content" placeholder="Add a comment..."
@@ -63,15 +139,13 @@
                         <% } %>
             </div>
 
-            <!-- Comments Section -->
+            <!-- Comments -->
             <div>
                 <h4 class="mb-4">Comments (<%= comments.length %>)</h4>
-
                 <% comments.forEach(comment=> { %>
-                    <div class="card mb-3">
+                    <div class="card comment-card mb-3">
                         <div class="card-body d-flex gap-3">
-                            <img src="<%= comment.createdBy.profileImageURL %>" class="rounded-circle" width="40px"
-                                height="40px">
+                            <img src="<%= comment.createdBy.profileImageURL %>" alt="Commenter">
                             <div>
                                 <strong>
                                     <%= comment.createdBy.fullName %>

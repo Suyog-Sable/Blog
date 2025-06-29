@@ -4,36 +4,119 @@
 <head>
     <%- include('./partials/head') %>
         <title>Add New Blog</title>
+
+        <style>
+            body {
+                background: linear-gradient(to right, #1c1c1c, #2e2e2e);
+                color: #f1f1f1;
+                margin: 0;
+                min-height: 100vh;
+            }
+
+            .page-content {
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                min-height: calc(100vh - 56px);
+                padding: 60px 20px;
+            }
+
+            .blog-box {
+                background-color: rgba(255, 255, 255, 0.05);
+                padding: 40px;
+                border-radius: 20px;
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                width: 100%;
+                max-width: 1000px;
+                /* Wider space for better writing */
+            }
+
+            .blog-box h2 {
+                color: #fff;
+                margin-bottom: 32px;
+                text-align: center;
+                font-size: 2rem;
+            }
+
+            label {
+                color: #ccc;
+                font-weight: 500;
+            }
+
+            .form-control {
+                background-color: rgba(255, 255, 255, 0.1) !important;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                color: #fff !important;
+                padding: 12px 16px;
+                border-radius: 10px;
+                font-size: 1rem;
+            }
+
+            .form-control::placeholder {
+                color: #ccc;
+            }
+
+            .form-control:focus {
+                background-color: rgba(255, 255, 255, 0.12) !important;
+                border-color: #4dabf7 !important;
+                box-shadow: 0 0 0 0.2rem rgba(77, 171, 247, 0.25);
+                color: #fff !important;
+            }
+
+            textarea.form-control {
+                min-height: 400px;
+                /* Bigger space to write blogs */
+                resize: vertical;
+                line-height: 1.6;
+                font-family: inherit;
+            }
+
+            .btn-primary {
+                width: 100%;
+                border-radius: 10px;
+                padding: 14px;
+                font-weight: 600;
+                background-color: #2563eb;
+                border: none;
+                transition: background-color 0.3s ease;
+            }
+
+            .btn-primary:hover {
+                background-color: #1d4ed8;
+            }
+        </style>
 </head>
 
 <body>
     <%- include('./partials/nav') %>
 
-        <div class="container mt-3">
-            <form action="/blog" method="post" enctype="multipart/form-data">
+        <div class="page-content">
+            <div class="blog-box">
+                <h2>📚 Share a New Blog</h2>
+                <form action="/blog" method="POST" enctype="multipart/form-data">
 
-                <div class="mb-3">
-                    <label for="coverImage" class="form-label">Cover Image</label>
-                    <input type="file" class="form-control" id="coverImage" name="coverImage" aria-describedby="title">
-                </div>
+                    <div class="mb-4">
+                        <label for="coverImage" class="form-label">Cover Image</label>
+                        <input type="file" class="form-control" id="coverImage" name="coverImage" required>
+                    </div>
 
+                    <div class="mb-4">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Your blog title..."
+                            required>
+                    </div>
 
-                <div class="mb-3">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="title" name="title" aria-describedby="title">
-                </div>
+                    <div class="mb-4">
+                        <label for="body" class="form-label">Body</label>
+                        <textarea class="form-control" name="body" id="body"
+                            placeholder="Start writing your amazing blog here..." required></textarea>
+                    </div>
 
-                <div class="mb-3">
-                    <label for="floatingTextarea">Body</label>
-                    <textarea class="form-control" name="body" id="body"></textarea>
-                </div>
-
-                <div class="mb-3">
-                    <button class="btn btn-primary">Submit</button>
-                </div>
-
-
-            </form>
+                    <button type="submit" class="btn btn-primary">🚀 Publish Blog</button>
+                </form>
+            </div>
         </div>
 
         <%- include('./partials/script') %>

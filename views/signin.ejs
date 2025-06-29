@@ -6,31 +6,101 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Signin</title>
+
+        <style>
+            body {
+                background: linear-gradient(to right, #1c1c1c, #2e2e2e);
+                color: #f1f1f1;
+                min-height: 100vh;
+                margin: 0;
+            }
+
+            .page-content {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: calc(100vh - 56px);
+                /* subtract navbar height */
+            }
+
+            .auth-box {
+                background-color: rgba(255, 255, 255, 0.05);
+                padding: 40px;
+                border-radius: 16px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                width: 100%;
+                max-width: 420px;
+            }
+
+            .auth-box h2 {
+                color: #fff;
+                margin-bottom: 28px;
+                text-align: center;
+            }
+
+            .form-control,
+            .form-check-input {
+                background-color: rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                color: #fff;
+            }
+
+            .form-control::placeholder {
+                color: #ccc;
+            }
+
+            .form-text {
+                color: #bbb;
+            }
+
+            .btn-primary {
+                width: 100%;
+                border-radius: 8px;
+            }
+
+            label {
+                color: #ddd;
+            }
+
+            .form-check-label {
+                color: #ccc;
+            }
+        </style>
 </head>
 
 <body>
-
     <%- include('./partials/nav') %>
-        <div class="container mt-4">
-            <form action="/user/signin" method="post">
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" name="email"
-                        aria-describedby="emailHelp">
-                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" name="password">
-                </div>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
 
+        <!-- Only this section is centered -->
+        <div class="page-content">
+            <div class="auth-box">
+                <h2>Welcome Back 👋</h2>
+                <form action="/user/signin" method="post">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" name="email"
+                            placeholder="you@example.com" required>
+                        <div id="emailHelp" class="form-text">We'll never share your email.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" name="password"
+                            placeholder="••••••••" required>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Remember me</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Sign In</button>
+                </form>
+            </div>
         </div>
+
         <%- include('./partials/script') %>
 </body>
 
