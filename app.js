@@ -1,7 +1,10 @@
+require("dotenv").config();
+
 const path = require("path");
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
+
 
 const Blog = require('./models/blog')
 
@@ -11,10 +14,11 @@ const blogRoute = require('./routes/blog');
 const { checkForAuthenticationCookie } = require("./middlewares/authentication");
 
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 mongoose
-    .connect('mongodb://localhost:27017/blog')
+    // .connect('mongodb://localhost:27017/blog')
+    .connect(process.env.MONGO_URL)
     .then(e => console.log('MongoDb Connected'));
 
 app.get('/favicon.ico', (req, res) => res.status(204).end());
