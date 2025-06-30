@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>About - Suyog Sable</title>
+        <style>
+            body {
+                background: linear-gradient(to right, #121212, #1c1c1c);
+                color: #f5f5f5;
+                font-family: 'Segoe UI', sans-serif;
+            }
+
+            .about-wrapper {
+                max-width: 900px;
+                margin: 60px auto;
+                padding: 0 20px;
+                text-align: center;
+            }
+
+            .about-wrapper img {
+                width: 140px;
+                height: 140px;
+                border-radius: 50%;
+                object-fit: cover;
+                margin-bottom: 20px;
+                border: 3px solid #2c2c2c;
+            }
+
+            .about-wrapper h1 {
+                font-size: 2.5rem;
+                font-weight: 700;
+            }
+
+            .about-wrapper h4 {
+                font-size: 1.2rem;
+                font-weight: 500;
+                margin: 10px 0 30px;
+                color: #bbbbbb;
+            }
+
+            .about-wrapper p {
+                font-size: 1rem;
+                line-height: 1.6;
+                color: #ccc;
+                margin-bottom: 20px;
+            }
+
+            .btn-group {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 12px;
+                margin-top: 20px;
+            }
+
+            .btn-group a {
+                text-decoration: none;
+                padding: 10px 20px;
+                background-color: #007bff;
+                border-radius: 8px;
+                color: #fff;
+                font-weight: 500;
+                transition: background 0.3s ease, transform 0.2s ease;
+            }
+
+            .btn-group a:hover {
+                background-color: #0056b3;
+                transform: translateY(-2px);
+            }
+
+            @media (max-width: 600px) {
+                .about-wrapper h1 {
+                    font-size: 2rem;
+                }
+
+                .about-wrapper img {
+                    width: 100px;
+                    height: 100px;
+                }
+            }
+        </style>
+</head>
+
+<body>
+    <%- include('./partials/nav') %>
+
+        <div class="about-wrapper">
+            <img src="/images/Suyog.jpeg" alt="Suyog Sable">
+            <h1>Suyog Sable</h1>
+            <h4>Engineer • Developer • Problem-solver</h4>
+            <p>
+                Hi, I’m Suyog — a passionate full-stack developer, tech enthusiast, and problem-solver. I love working
+                on real-world projects involving AI, web development, and innovative systems. My goal is to build
+                meaningful tech that helps people and improves everyday life.
+            </p>
+            <p>
+                I’ve built apps like an Inventory Tracker with AI forecasting, a CRM System , and
+                multiple full-stack platforms using Node.js, MongoDB, and React. Always curious, always learning.
+            </p>
+            <div class="btn-group">
+                <a href="https://github.com/Suyog-Sable" target="_blank">GitHub</a>
+                <a href="https://www.linkedin.com/in/suyog-sable/" target="_blank">LinkedIn</a>
+                <a href="mailto:suyogsable3@gmail.com">Email Me</a>
+            </div>
+        </div>
+        <%- include('./partials/footer') %>
+
+            <%- include('./partials/script') %>
+</body>
+
+</html>

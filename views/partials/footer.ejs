@@ -1,0 +1,84 @@
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="footer-brand">
+            <h4>Suyog Sable</h4>
+            <p>Let’s build something meaningful together — connect with me!</p>
+
+        </div>
+        <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="/user/about">About</a>
+            <a href="mailto:suyogsable3@gmail.com">Email</a>
+            <a href="https://github.com/Suyog-Sable" target="_blank">GitHub</a>
+            <a href="https://linkedin.com/in/suyog-sable" target="_blank">LinkedIn</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; <%= new Date().getFullYear() %> Suyog Sable. All rights reserved.</p>
+    </div>
+</footer>
+
+<style>
+    .site-footer {
+        background-color: #1a1a1a;
+        color: #ccc;
+        padding: 40px 20px 20px;
+        margin-top: 60px;
+        font-size: 0.95rem;
+    }
+
+    .footer-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1000px;
+        margin: 0 auto 20px;
+        border-bottom: 1px solid #333;
+        padding-bottom: 20px;
+    }
+
+    .footer-brand h4 {
+        font-size: 1.3rem;
+        margin-bottom: 8px;
+        color: #fff;
+    }
+
+    .footer-brand p {
+        font-size: 0.95rem;
+        color: #aaa;
+    }
+
+    .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .footer-links a {
+        color: #ccc;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+        color: #fff;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        color: #777;
+    }
+
+    @media (max-width: 600px) {
+        .footer-content {
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-links {
+            justify-content: center;
+        }
+    }
+</style>

@@ -1,35 +1,46 @@
 <style>
     .glass-navbar {
-        background-color: rgba(33, 37, 41, 0.6);
-        /* semi-transparent dark */
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        background-color: rgba(33, 37, 41, 0.7);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-        transition: all 0.3s ease;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .navbar-brand {
+        font-weight: 700;
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+        color: #00bcd4 !important;
+        text-shadow: 0 0 6px rgba(0, 188, 212, 0.5);
     }
 
     .nav-link {
         font-weight: 500;
+        font-size: 1.05rem;
+        color: #f1f1f1 !important;
+        transition: color 0.2s, transform 0.2s;
     }
 
-    .navbar-brand {
-        font-weight: bold;
-        font-size: 1.4rem;
-        letter-spacing: 0.5px;
+    .nav-link:hover {
+        color: #00bcd4 !important;
+        transform: scale(1.05);
     }
 
     .dropdown-menu {
-        background-color: #212529;
+        background-color: #1f1f1f;
         border: none;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
     }
 
     .dropdown-item {
-        color: #fff;
+        color: #f0f0f0;
     }
 
     .dropdown-item:hover {
-        background-color: #343a40;
+        background-color: #333;
+        color: #00bcd4;
     }
 </style>
 
@@ -43,32 +54,37 @@
 
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto">
-                <!-- <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li> -->
 
                 <% if (locals.user) { %>
                     <li class="nav-item">
-                        <a class="nav-link" href="/blog/add-new">Write</a>
+                        <a class="nav-link" href="/blog/add-new">Create Blog</a>
                     </li>
+                    <% } %>
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <%= user.fullName %>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
-                        </ul>
-                    </li>
-                    <% } else { %>
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/signup">Create Account</a>
+                            <a class="nav-link" href="/about">About</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/user/signin">Signin</a>
-                        </li>
-                        <% } %>
+
+                        <% if (locals.user) { %>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <%= user.fullName %>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li><a class="dropdown-item" href="/user/profile">My Profile</a></li>
+                                    <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
+                                </ul>
+
+                            </li>
+                            <% } else { %>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/user/signup">Create Account</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/user/signin">Signin</a>
+                                </li>
+                                <% } %>
             </ul>
         </div>
     </div>

@@ -35,6 +35,7 @@ router.get("/", async (req, res) => {
 });
 
 
+
 router.get("/add-new", (req, res) => {
     return res.render("addBlog", {
         user: req.user,
@@ -63,6 +64,13 @@ router.get('/search', async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
+
+router.get("/about", (req, res) => {
+    return res.render("about", {
+        user: req.user
+    });
+});
+
 
 router.get('/:id', async (req, res) => {
     const blogId = req.params.id;
