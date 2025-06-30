@@ -112,56 +112,62 @@
 
             <h2 class="fw-bold mb-4">Explore Latest Blogs</h2>
 
-            <% blogs.forEach(blog=> { %>
-                <div class="blog-card d-flex gap-4 blog-flex">
-                    <!-- Cover Image -->
-                    <a href="/blog/<%= blog._id %>">
-                        <img src="<%= blog.coverImageURL %>" alt="Cover" class="blog-image">
-                    </a>
+            <% if (blogs.length===0) { %>
+                <div class="text-muted text-center">No blogs found for your search.</div>
+                <% } %>
 
-                    <!-- Blog Content -->
-                    <div class="flex-grow-1 d-flex flex-column justify-content-between">
-                        <div>
-                            <a href="/blog/<%= blog._id %>" class="text-decoration-none">
-                                <div class="blog-title">
-                                    <%= blog.title %>
-                                </div>
+                    <% blogs.forEach(blog=> { %>
+
+                        <div class="blog-card d-flex gap-4 blog-flex">
+                            <!-- Cover Image -->
+                            <a href="/blog/<%= blog._id %>">
+                                <img src="<%= blog.coverImageURL %>" alt="Cover" class="blog-image">
                             </a>
 
-                            <!-- 📅 Date + ❤️ Likes -->
-                            <div class="meta-info mb-2">
-                                Posted on
-                                <%= new Date(blog.createdAt).toLocaleDateString('en-IN', { day: 'numeric' ,
-                                    month: 'long' , year: 'numeric' }) %>
-                                    |
-                                    ❤️ <%= blog.likeCount || 0 %> Likes
-                            </div>
-
-                            <!-- 📝 Snippet -->
-                            <div class="blog-snippet">
-                                <%= blog.body.length> 200 ? blog.body.substring(0, 200) + "..." : blog.body %>
-                            </div>
-                        </div>
-
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-                            <!-- Author -->
-                            <% if (blog.createdBy) { %>
-                                <div class="author-info">
-                                    <img src="<%= blog.createdBy.profileImageURL %>" alt="Author">
-                                    <span>
-                                        <%= blog.createdBy.fullName %>
-                                    </span>
-                                </div>
-                                <% } %>
-
-                                    <!-- Read More -->
-                                    <a href="/blog/<%= blog._id %>" class="btn btn-outline-primary btn-sm read-btn">
-                                        Read More
+                            <!-- Blog Content -->
+                            <div class="flex-grow-1 d-flex flex-column justify-content-between">
+                                <div>
+                                    <a href="/blog/<%= blog._id %>" class="text-decoration-none">
+                                        <div class="blog-title">
+                                            <%= blog.title %>
+                                        </div>
                                     </a>
+
+                                    <!-- 📅 Date + ❤️ Likes -->
+                                    <div class="meta-info mb-2">
+                                        Posted on
+                                        <%= new Date(blog.createdAt).toLocaleDateString('en-IN', { day: 'numeric' ,
+                                            month: 'long' , year: 'numeric' }) %>
+                                            |
+                                            ❤️ <%= blog.likeCount || 0 %> Likes
+                                    </div>
+
+                                    <!-- 📝 Snippet -->
+                                    <div class="blog-snippet">
+                                        <%= blog.body.length> 200 ? blog.body.substring(0, 200) + "..." : blog.body %>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <!-- Author -->
+                                    <% if (blog.createdBy) { %>
+                                        <div class="author-info">
+                                            <img src="<%= blog.createdBy.profileImageURL %>" alt="Author">
+                                            <span>
+                                                <%= blog.createdBy.fullName %>
+                                            </span>
+                                        </div>
+                                        <% } %>
+
+                                            <!-- Read More -->
+                                            <a href="/blog/<%= blog._id %>"
+                                                class="btn btn-outline-primary btn-sm read-btn">
+                                                Read More
+                                            </a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <% }) %>
+                        <% }) %>
         </div>
 
         <%- include('./partials/script') %>

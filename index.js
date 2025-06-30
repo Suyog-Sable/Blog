@@ -17,6 +17,9 @@ mongoose
     .connect('mongodb://localhost:27017/blog')
     .then(e => console.log('MongoDb Connected'));
 
+app.get('/favicon.ico', (req, res) => res.status(204).end());
+
+
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 

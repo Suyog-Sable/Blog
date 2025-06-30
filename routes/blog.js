@@ -25,11 +25,9 @@ router.get("/", async (req, res) => {
         .sort({ createdAt: -1 })
         .populate('createdBy')
         .lean();
-
     for (let blog of blogs) {
         blog.likeCount = await Like.countDocuments({ blogId: blog._id });
     }
-
     res.render("home", {
         user: req.user,
         blogs,
@@ -43,9 +41,31 @@ router.get("/add-new", (req, res) => {
     });
 });
 
+//Search Bar Logic
+router.get('/search', async (req, res) => {
+    const query = req.query.q?.trim();
+    try {
+        if (!query) {
+            return res.redirect('/');
+        }
+        const blogs = await Blog.find({
+            $or: [
+                { title: { $regex: query, $options: 'i' } },  // case-insensitive
+                { body: { $regex: query, $options: 'i' } }
+            ]
+        }).populate('createdBy');
+        res.render('home', {
+            user: req.user,
+            blogs
+        });
+    } catch (err) {
+        console.error('Search error:', err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 router.get('/:id', async (req, res) => {
     const blogId = req.params.id;
-
     const blog = await Blog.findById(blogId).populate('createdBy');
     const comments = await Comment.find({ blogId }).populate("createdBy");
 
@@ -63,6 +83,8 @@ router.get('/:id', async (req, res) => {
         isLiked: !!isLiked, // true or false
     });
 });
+
+
 
 router.post("/comment/:blogId", async (req, res) => {
     await Comment.create({
@@ -102,22 +124,14 @@ router.post("/", upload.single("coverImage"), async (req, res) => {
 
 router.post("/delete/:blogId", async (req, res) => {
     const { blogId } = req.params;
-
-    // Find the blog first
     const blog = await Blog.findById(blogId);
-
-    // Check if the logged-in user is the creator
     if (!blog || String(blog.createdBy) !== String(req.user._id)) {
         return res.status(403).send("Unauthorized or blog not found");
     }
-
-    // Delete blog, its comments, and likes
     await Blog.deleteOne({ _id: blogId });
     await Comment.deleteMany({ blogId });
     await Like.deleteMany({ blogId });
-
     return res.redirect("/");
 });
-
 
 module.exports = router;
